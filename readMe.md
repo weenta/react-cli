@@ -1,9 +1,10 @@
 # React-cli-project Notes
 
-## chalk        
+## packages
+- chalk        
 终端彩色输出
 
-## commander        
+- commander        
 The complete solution for node.js command-line interfaces, 
 ```js
 #!/usr/bin/env node
@@ -29,3 +30,50 @@ if (program.bbqSauce) console.log('  - bbq');
 console.log('  - %s cheese', program.cheese);
 
 ```
+
+- download-github-repo    
+Download and extract a GitHub repository from node.
+```js
+  API
+  download(repo, destination, callback)
+```
+
+- khaos (deprecated)       
+A super-simple way to scaffold new projects.
+```js
+  khaos create segmentio/khaos-node my-new-project
+```
+
+- read-metadata    
+```js
+  var read = require('read-metadata');
+  
+  read('path/to/metadata.json', function(err, data){
+      console.log(data);
+  });
+```
+
+- request   
+Request is designed to be the simplest way possible to make http calls
+```js
+var request = require('request');
+request('http://www.google.com', function (error, response, body) {
+  console.log('error:', error); // Print the error if one occurred
+  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+  console.log('body:', body); // Print the HTML for the Google homepage.
+});
+  
+```
+
+- rimraf    
+The UNIX command rm -rf for node.     
+```js
+rimraf(f, [opts], callback)
+```
+
+
+### `/bin`    
+存放可执行文件
+
+### `/lib`
+存放库文件
