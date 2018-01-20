@@ -29,7 +29,33 @@ if (program.pineapple) console.log('  - pineapple');
 if (program.bbqSauce) console.log('  - bbq');
 console.log('  - %s cheese', program.cheese);
 
+commander 默认存在两个选项 -V 和 -h，代表查看版本和查看帮助
+.usage('<path>[options]')
+    .parse(process.argv)
+
+console.log(program.args) // 默认去除progress.argv前两项后所得的参数 
+
 ```
+```js
+#! /usr/bin/env node
+
+var program = require('commander')
+
+program
+    .version(require('../package.json').version)
+    .usage('<path>[options]')
+    .parse(process.argv)
+
+console.log(program.args)
+
+ $mycli a -b -c
+ ['a']
+ a 为参数（argument）
+ b、c为选项（options)
+ 
+```
+
+
 
 - download-github-repo    
 Download and extract a GitHub repository from node.
@@ -39,12 +65,14 @@ Download and extract a GitHub repository from node.
 ```
 
 - khaos (deprecated)       
-A super-simple way to scaffold new projects.
+A super-simple way to scaffold new projects.    
+搭建新项目脚手架    
 ```js
   khaos create segmentio/khaos-node my-new-project
 ```
 
-- read-metadata    
+- read-metadata        
+Load a JSON or YAML metadata file and return it as an object.      
 ```js
   var read = require('read-metadata');
   
@@ -73,7 +101,15 @@ rimraf(f, [opts], callback)
 
 
 ### `/bin`    
-存放可执行文件
+存放可执行文件   
+- `/bin/react`    
+命令行提示信息
+
 
 ### `/lib`
 存放库文件
+
+### `npm link`    
+执行package.json中的bin命令； 对应一个可执行本地文件地址； 相当于全局安装一个本地模块； 可用于测试本地模块
+
+`npm unlink` 删除
