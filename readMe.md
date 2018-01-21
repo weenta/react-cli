@@ -113,3 +113,7 @@ rimraf(f, [opts], callback)
 执行package.json中的bin命令； 对应一个可执行本地文件地址； 相当于全局安装一个本地模块； 可用于测试本地模块
 
 `npm unlink` 删除
+
+
+- todo 
+  package.json  name

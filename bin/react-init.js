@@ -57,75 +57,10 @@ if (exists(to)) logger.fatal('"%s" already exists.', name)
 /**
  * Download and generate.
  */
+var gitRepo = 'weenta/antd-todolist'
 
-var tmp = '/tmp/vue-template-' + uid()
-download(template, tmp, { clone: clone }, function (err) {
+download(gitRepo, to, { clone: true }, function (err) {
     if (err) logger.fatal(err)
-    generate(tmp, to, function (err) {
-        if (err) logger.fatal(err)
-        rm(tmp)
-        console.log()
-        logger.success('Generated "%s".', name)
-    })
+    console.log('success')
 })
 
-/**
- * Generate a template given a `src` and `dest`.
- * 生成模板
- *
- * @param {String} src
- * @param {String} dest
- * @param {Function} fn
- */
-
-function generate(src, dest, fn) {
-    var template = join(src, 'template')
-    var khaos = new Khaos(template)
-    var opts = options(src)
-
-    khaos.schema(opts.schema)
-    khaos.generate(dest, fn)
-}
-
-
-/**
- * Read prompts metadata.
- *
- * @param {String} dir
- * @return {Object}
- */
-function options(dir) {
-    var file = join(dir, 'meta.json')
-    var opts = exists(file)
-        ? metadata.sync(file)
-        : {}
-
-    setDefault(opts, 'name', name)
-
-    var author = getGitUser()
-    if (author) {
-        setDefault(opts, 'author', author)
-    }
-
-    return opts
-}
-
-/**
- * Set the default value for a schema key
- *
- * @param {Object} opts
- * @param {String} key
- * @param {String} val
- */
-
-function setDefault(opts, key, val) {
-    var schema = opts.schema || (opts.schema = {})
-    if (!schema[key] || typeof schema[key] !== 'object') {
-        schema[key] = {
-            'type': 'string',
-            'default': val
-        }
-    } else {
-        schema[key]['default'] = val
-    }
-}
