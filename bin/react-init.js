@@ -90,7 +90,8 @@ if (exists(template)) {
             if (err) logger.fatal(err)
             rm(tmp)
             console.log()
-            logger.success('Success Generated "%s".\n\nHave a good day', name)
+            logger.greeting('Success Generated "%s".', name)
+            logger.success('Have a good day!')
         })
     })
 }
