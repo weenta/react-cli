@@ -116,4 +116,6 @@ rimraf(f, [opts], callback)
 
 
 - todo 
-  package.json  name
+  - 更新template
+  - 默认模板
+  - 更新模板

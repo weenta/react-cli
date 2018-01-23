@@ -11,7 +11,6 @@ var rm = require('rimraf').sync
 var uid = require('uid')
 var chalk = require('chalk')
 var logger = require('../lib/logger')
-// var getGitUser = require('../lib/git-user')
 
 /**
  * usage
@@ -42,6 +41,15 @@ program.on('--help', function () {
  * 打印--help信息
  */
 program.parse(process.argv)
+
+
+/**
+ * Settings.
+ */
+var template = 'react-template'
+var name = program.args[0]
+var dir = program.directory
+var to = resolve(name)
 if (program.args.length < 1) return program.help()
 
 /**
@@ -49,18 +57,113 @@ if (program.args.length < 1) return program.help()
  */
 var name = program.args[0]
 var to = resolve(name)
-// 文件已存在 则提示
 if (exists(to)) logger.fatal('"%s" already exists.', name)
 
 
+/**
+ * Detect if template on file system.
+ */
+
+if (exists(template)) {
+    generate(template, to, function (err) {
+        if (err) logger.fatal(err)
+        console.log()
+        logger.success('Generated "%s".', name)
+    })
+} else {
+    /**
+     * Detect official template.
+     */
+
+    if (!~template.indexOf('/')) {
+        template = 'weenta/' + template
+    }
+
+    /**
+     * Download and generate.
+     */
+
+    var tmp = '/tmp/react-template-' + uid()
+    download(template, tmp, function (err) {
+        if (err) logger.fatal(err)
+        generate(tmp, to, function (err) {
+            if (err) logger.fatal(err)
+            rm(tmp)
+            console.log()
+            logger.success('Success Generated "%s".\n\nHave a good day', name)
+        })
+    })
+}
 
 /**
- * Download and generate.
+ * Read prompts metadata.
+ *
+ * @param {String} dir
+ * @return {Object}
  */
-var gitRepo = 'weenta/antd-todolist'
 
-download(gitRepo, to, { clone: true }, function (err) {
-    if (err) logger.fatal(err)
-    console.log('success')
-})
+function options(dir) {
+    var file = join(dir, 'meta.json')
+    var opts = exists(file)
+        ? metadata.sync(file)
+        : {}
+    defaultName(opts)
+    return opts
+}
 
+/**
+ * Automatically infer the default project name
+ *
+ * @param {Object} opts
+ */
+
+function defaultName(opts) {
+    var schema = opts.schema || (opts.schema = {})
+    if (!schema.name || typeof schema.name !== 'object') {
+        schema.name = {
+            'type': 'string',
+            'default': name
+        }
+    } else {
+        schema.name['default'] = name
+    }
+}
+
+/**
+ * Generate a template given a `src` and `dest`.
+ *
+ * @param {String} src
+ * @param {String} dest
+ * @param {Function} fn
+ */
+
+function generate(src, dest, fn) {
+    var template = join(src, 'template')
+    var khaos = new Khaos(template)
+    var opts = options(src)
+
+    khaos.schema(opts.schema)
+    khaos.read(function (err, files) {
+        if (err) logger.fatal(err)
+        khaos.parse(files, function (err, schema) {
+            if (err) logger.fatal(err)
+            khaos.prompt(schema, function (err, answers) {
+                if (err) logger.fatal(err)
+                // work around prompt-for bug...
+                // which ignores default value for strings
+                // otherwise we can just use khaos.generate :(
+                Object.keys(schema).forEach(function (key) {
+                    if (
+                        typeof schema[key] === 'object' &&
+                        schema[key].type === 'string' &&
+                        schema[key].default != null &&
+                        answers[key] === ''
+                    ) {
+                        answers[key] = schema[key].default
+                    }
+                })
+                khaos.write(dest, files, answers, fn)
+            })
+        })
+    })
+}
