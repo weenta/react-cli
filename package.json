@@ -15,15 +15,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/weenta/react-cli-demo.git"
+    "url": "git+git@github.com:weenta/react-cli.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "react-cli"
+  ],
+  "author": "weenta",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/weenta/react-cli-demo/issues"
+    "url": "https://github.com/weenta/react-cli/issues"
   },
-  "homepage": "https://github.com/weenta/react-cli-demo#readme",
+  "homepage": "https://github.com/weenta/react-cli#readme",
   "dependencies": {
     "chalk": "^2.3.0",
     "commander": "^2.13.0",
