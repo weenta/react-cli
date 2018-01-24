@@ -1,8 +1,7 @@
 # wreact
-
 a private react project scaffolding tool
 
-## usage
+## Usage
 ```bash
     # install
     npm install wreact -g
