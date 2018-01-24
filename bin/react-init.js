@@ -23,16 +23,12 @@ program
  * help
  */
 program.on('--help', function () {
-    console.log('========================================')
-    console.log('program.args')
-    console.log(program.args)
-    console.log('========================================')
+
     console.log('  Examples:')
     console.log()
-    console.log(chalk.gray('    # create my project'))
-    console.log('    $ myreact init my-project')
+    console.log(chalk.gray('    # generate my project'))
+    console.log('    $ wreact init my-project')
     console.log()
-   
 })
 
 
@@ -91,6 +87,9 @@ if (exists(template)) {
             rm(tmp)
             console.log()
             logger.greeting('Success Generated "%s".', name)
+            logger.log('To get started:')
+            logger.log('cd "%s"\n\n npm install\n\n npm run dev',name)
+            console.log()
             logger.success('Have a good day!')
         })
     })
