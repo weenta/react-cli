@@ -1,6 +1,6 @@
 {
   "name": "wreact",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": " A private react project scaffolding tool",
   "main": "test.js",
   "directories": {
