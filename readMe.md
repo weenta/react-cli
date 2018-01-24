@@ -7,7 +7,7 @@ a private react project scaffolding tool
     npm install wreact -g
     
     # generate project
-    wreact <project-name>
+    wreact init <project-name>
 
     # start project
     cd <project-name>
