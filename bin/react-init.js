@@ -87,10 +87,11 @@ if (exists(template)) {
             rm(tmp)
             console.log()
             logger.greeting('Success Generated "%s".', name)
-            logger.log('To get started:')
-            logger.log('cd "%s"\n\n npm install\n\n npm run dev',name)
+            console.log()
+            logger.greeting('To get started:\n            cd "%s"\n            npm install\n            npm run dev', name)
             console.log()
             logger.success('Have a good day!')
+            console.log()
         })
     })
 }
