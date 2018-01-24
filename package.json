@@ -1,14 +1,14 @@
 {
-  "name": "05react_cli",
+  "name": "wreact",
   "version": "1.0.0",
-  "description": "## packages - chalk         终端彩色输出",
+  "description": " A private react project scaffolding tool",
   "main": "test.js",
   "directories": {
     "lib": "lib"
   },
   "bin": {
-    "myreact": "bin/react.js",
-    "myreact-init": "bin/react-init.js"
+    "wreact": "bin/react.js",
+    "wreact-init": "bin/react-init.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
